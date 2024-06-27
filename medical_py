@@ -1,1 +1,51 @@
+import numpy as np
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings("ignore")
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, roc_auc_score
+from sklearn.linear_model import LinearRegression,Lasso
+from sklearn.svm import SVR
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import GradientBoostingRegressor
+from xgboost import XGBRegressor
+from sklearn.model_selection import cross_val_score
+df=pd.read_csv("/content/med-insurance.csv")
+df
+df.info()
+df.describe()
+df.isnull().sum()
+#plotting and processing
+features = ['sex', 'children', 'smoker', 'region']
+plt.subplots(figsize=(7, 7))
+for i, col in enumerate(features):
+  plt.subplot(2, 2, i + 1)
+  gd=df.groupby(col)['expenses'].mean()
+  gd.plot(kind='bar')
+  plt.tight_layout()
+  plt.show()
+features = ['age', 'bmi']
+
+plt.subplots(figsize=(17, 7))
+for i, col in enumerate(features):
+    plt.subplot(1, 2, i + 1)
+    # Scatter plot of the feature column against expenses, colored by smoker status
+    smokers = df[df['smoker'] == 'yes']
+    non_smokers = df[df['smoker'] == 'no']
+    
+    plt.scatter(smokers[col], smokers['expenses'], color='red', label='Smokers', alpha=0.5)
+    plt.scatter(non_smokers[col], non_smokers['expenses'], color='green', label='Non-Smokers', alpha=0.5)
+    
+    plt.title(f'Expenses vs {col} by Smoker Status')
+    plt.ylabel('Expenses')
+    plt.xlabel(col)
+    plt.legend()
+
+plt.tight_layout()
+plt.show()
+
 
