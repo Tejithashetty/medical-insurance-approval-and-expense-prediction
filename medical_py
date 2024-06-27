@@ -173,6 +173,10 @@ print(r2_score(ytest,ypredtest4))
 print(cross_val_score(finalmodel,X,Y,cv=5,).mean())
 from pickle import dump
 dump(finalmodel,open('insurancemodelf.pkl','wb'))
+new_data=pd.DataFrame({'age':30,'sex':'female','bmi':23.9,'children':2,'smoker':'no','region':'southeast'},index=[0])
+new_data['smoker']=new_data['smoker'].map({'yes':1,'no':0})
+new_data=new_data.drop(new_data[['sex','region']],axis=1)
+finalmodel.predict(new_data)
 
 
 
